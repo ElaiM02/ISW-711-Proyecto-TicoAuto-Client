@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .card {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 8px 14px;
+            margin-top: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>TicoAuto</h1>
+
+    <div class="card">
+
+        <h2 id="status"></h2>
+        <p id="email"></p>
+
+        <button onclick="logout()">Cerrar sesión</button>
+
+    </div>
+
+    <script>
+
+        const token = sessionStorage.getItem("authToken");
+        const email = sessionStorage.getItem("userEmail");
+
+        if (!token) {
+            window.location.href = "login.html";
+        }
+
+        document.getElementById("status").textContent = "Sesión iniciada correctamente";
+        document.getElementById("email").textContent = "Usuario: " + email;
+
+        function logout() {
+
+            sessionStorage.removeItem("authToken");
+            sessionStorage.removeItem("userEmail");
+
+            window.location.href = "login.html";
+        }
+
+    </script>
+
+</body>
+
+</html>
