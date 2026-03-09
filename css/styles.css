@@ -1,0 +1,75 @@
+/* ===== ESTILOS GENERALES (todas las páginas) ===== */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px auto;
+}
+
+input,
+button {
+    padding: 8px;
+    margin: 6px 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* ===== INDEX ===== */
+
+body.index {
+    max-width: 800px;
+}
+
+.card {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+body.index button {
+    margin-top: 10px;
+}
+
+
+/* ===== LOGIN ===== */
+
+body.login {
+    max-width: 900px;
+}
+
+body.login input,
+body.login button {
+    width: 100%;
+}
+
+pre {
+    background: #f6f6f6;
+    padding: 12px;
+    overflow: auto;
+}
+
+
+/* ===== REGISTER ===== */
+
+body.register {
+    max-width: 600px;
+}
+
+body.register input,
+body.register button {
+    width: 100%;
+}
+
+.msg {
+    margin-top: 10px;
+}
+
+.msg.err {
+    color: red;
+}
+
+.msg.success {
+    color: green;
+}
