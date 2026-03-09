@@ -1,75 +1,180 @@
 /* ===== ESTILOS GENERALES (todas las páginas) ===== */
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 40px auto;
+body{
+font-family: Arial, sans-serif;
+margin:40px auto;
+background:#f5f5f5;
 }
 
 input,
-button {
-    padding: 8px;
-    margin: 6px 0;
+button{
+padding:8px;
+margin:6px 0;
 }
 
-button {
-    cursor: pointer;
+button{
+cursor:pointer;
+background:#007bff;
+color:white;
+border:none;
+border-radius:4px;
+}
+
+button:hover{
+background:#0056b3;
 }
 
 
 /* ===== INDEX ===== */
 
-body.index {
-    max-width: 800px;
+body.index{
+max-width:800px;
 }
 
-.card {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+.card{
+padding:20px;
+border:1px solid #ddd;
+border-radius:6px;
+background:white;
 }
 
-body.index button {
-    margin-top: 10px;
+body.index button{
+margin-top:10px;
 }
 
 
 /* ===== LOGIN ===== */
 
-body.login {
-    max-width: 900px;
+body.login{
+max-width:900px;
 }
 
 body.login input,
-body.login button {
-    width: 100%;
+body.login button{
+width:100%;
 }
 
-pre {
-    background: #f6f6f6;
-    padding: 12px;
-    overflow: auto;
+pre{
+background:#f6f6f6;
+padding:12px;
+overflow:auto;
 }
 
 
 /* ===== REGISTER ===== */
 
-body.register {
-    max-width: 600px;
+body.register{
+max-width:600px;
 }
 
 body.register input,
-body.register button {
-    width: 100%;
+body.register button{
+width:100%;
 }
 
-.msg {
-    margin-top: 10px;
+.msg{
+margin-top:10px;
 }
 
-.msg.err {
-    color: red;
+.msg.err{
+color:red;
 }
 
-.msg.success {
-    color: green;
+.msg.success{
+color:green;
+}
+
+
+/* ===== VEHICULOS ===== */
+
+body.vehicles{
+max-width:1000px;
+}
+
+
+/* Tarjeta superior */
+
+.header-card{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:20px;
+border-radius:8px;
+margin-bottom:20px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+/* Usuario */
+
+.user-info{
+display:flex;
+flex-direction:column;
+}
+
+
+/* Botón logout */
+
+.logout{
+display:flex;
+align-items:center;
+}
+
+
+/* Contenedor principal */
+
+.container{
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+/* Formulario vehículos */
+
+.vehicle-form{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+
+/* Grupo formulario */
+
+.form-group{
+display:flex;
+flex-direction:column;
+}
+
+
+/* Inputs */
+
+input{
+padding:8px;
+border:1px solid #ccc;
+border-radius:4px;
+}
+
+
+/* Tabla */
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+background:white;
+}
+
+th,
+td{
+border:1px solid #ddd;
+padding:10px;
+text-align:left;
+}
+
+th{
+background:#f0f0f0;
 }
