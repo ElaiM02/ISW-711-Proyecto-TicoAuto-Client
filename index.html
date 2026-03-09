@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="css/styles.css">
     <meta charset="UTF-8">
     <title>Inicio</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body class="index">
@@ -16,10 +16,45 @@
         <h2 id="status"></h2>
         <p id="email"></p>
 
-        <button onclick="logout()">Cerrar sesión</button>
+        <div class="actions">
+            <button onclick="goVehicles()">Gestionar vehículos</button>
+            <button onclick="logout()">Cerrar sesión</button>
+        </div>
 
     </div>
 
-    <script src="js/index.js"></script>
+<script>
+
+// obtener datos de sesión
+const token = sessionStorage.getItem("authToken");
+const email = sessionStorage.getItem("userEmail");
+
+// verificar sesión
+if (!token) {
+    window.location.href = "login.html";
+}
+
+// mostrar información
+document.getElementById("status").textContent = "Sesión iniciada correctamente";
+document.getElementById("email").textContent = "Usuario: " + email;
+
+
+// ir a pantalla de vehículos
+function goVehicles(){
+    window.location.href = "    Vehicle.html";
+}
+
+
+// cerrar sesión
+function logout(){
+
+    sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("userEmail");
+
+    window.location.href = "login.html";
+}
+
+</script>
+
 </body>
 </html>
