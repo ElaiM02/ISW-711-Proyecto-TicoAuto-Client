@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Vehículos</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="vehicles">
+
+<h1>Gestión de Vehículos</h1>
+
+<div class="card">
+
+<h2>Agregar vehículo</h2>
+
+<div class="vehicle-form">
+
+<div class="form-group">
+<label>Marca</label>
+<input type="text" id="brand">
+</div>
+
+<div class="form-group">
+<label>Modelo</label>
+<input type="text" id="model">
+</div>
+
+<div class="form-group">
+<label>Año</label>
+<input type="number" id="year">
+</div>
+
+<div class="form-group">
+<label>Precio</label>
+<input type="number" id="price">
+</div>
+
+</div>
+
+<button onclick="createVehicle()">Guardar vehículo</button>
+
+</div>
+
+<h2>Lista de vehículos</h2>
+
+<table border="1" width="100%">
+<thead>
+<tr>
+<th>Marca</th>
+<th>Modelo</th>
+<th>Año</th>
+<th>Precio</th>
+</tr>
+</thead>
+
+<tbody id="vehicleList"></tbody>
+
+</table>
+
+<script>
+
+const API = "http://localhost:3000/api/vehicle";
+
+window.onload = function(){
+getVehicles();
+};
+
+// Crear vehículo
+async function createVehicle(){
+
+const brand = document.getElementById("brand").value;
+const model = document.getElementById("model").value;
+const year = document.getElementById("year").value;
+const price = document.getElementById("price").value;
+
+const response = await fetch(API, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+brand,
+model,
+year,
+price
+})
+});
+
+if(response.ok){
+
+alert("Vehículo guardado correctamente");
+
+document.getElementById("brand").value="";
+document.getElementById("model").value="";
+document.getElementById("year").value="";
+document.getElementById("price").value="";
+
+getVehicles();
+
+}else{
+
+alert("No se pudo crear el vehículo");
+
+}
+
+}
+
+
+// Obtener vehículos
+async function getVehicles(){
+
+const response = await fetch(API);
+const vehicles = await response.json();
+
+let html = "";
+
+vehicles.forEach(v => {
+
+html += `
+<tr>
+<td>${v.brand}</td>
+<td>${v.model}</td>
+<td>${v.year}</td>
+<td>${v.price}</td>
+</tr>
+`;
+
+});
+
+document.getElementById("vehicleList").innerHTML = html;
+
+}
+
+</script>
+
+</body>
+
+</html>
