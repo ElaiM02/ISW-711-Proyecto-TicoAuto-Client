@@ -25,27 +25,21 @@
 
 <script>
 
-// obtener datos de sesión
 const token = sessionStorage.getItem("authToken");
 const email = sessionStorage.getItem("userEmail");
 
-// verificar sesión
 if (!token) {
     window.location.href = "login.html";
 }
 
-// mostrar información
 document.getElementById("status").textContent = "Sesión iniciada correctamente";
 document.getElementById("email").textContent = "Usuario: " + email;
 
 
-// ir a pantalla de vehículos
 function goVehicles(){
     window.location.href = "    Vehicle.html";
 }
 
-
-// cerrar sesión
 function logout(){
 
     sessionStorage.removeItem("authToken");
