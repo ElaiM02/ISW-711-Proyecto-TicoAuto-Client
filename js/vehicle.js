@@ -1,5 +1,5 @@
 
-const API = "http://localhost:3000/api/vehicle";
+const API_BASE = "http://localhost:3008/api";
 
 window.onload = function(){
 getVehicles();
@@ -13,10 +13,13 @@ const model = document.getElementById("model").value;
 const year = document.getElementById("year").value;
 const price = document.getElementById("price").value;
 
-const response = await fetch(API, {
+const token = sessionStorage.getItem("authToken");
+
+const response = await fetch(`${API_BASE}/vehicle`, {
 method: "POST",
 headers: {
-"Content-Type": "application/json"
+"Content-Type": "application/json",
+"Authorization": `Bearer ${token}`
 },
 body: JSON.stringify({
 brand,
@@ -49,8 +52,15 @@ alert("No se pudo crear el vehículo");
 // Obtener vehículos
 async function getVehicles(){
 
-const response = await fetch(API);
-const vehicles = await response.json();
+const token = sessionStorage.getItem("authToken");
+const response = await fetch(`${API_BASE}/vehicle`, {
+headers: {
+"Authorization": `Bearer ${token}`
+}
+});
+
+const result = await response.json();
+const vehicles = result.data;
 
 let html = "";
 
