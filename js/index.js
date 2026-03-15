@@ -51,3 +51,15 @@ function searchVehicles() {
 
     renderVehicles(filtered);
 }
+
+function viewVehicle(id) {
+    const token = sessionStorage.getItem('authToken');
+
+    if (!token) {
+        alert('Debes iniciar sesión para ver el detalle del vehículo');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    window.location.href = `vehicle.html?id=${id}`;
+}
