@@ -1,17 +1,43 @@
-const token = sessionStorage.getItem("authToken");
-        const email = sessionStorage.getItem("userEmail");
+const API_BASE= "http://localhost:3008/api";
 
-        if (!token) {
-            window.location.href = "login.html";
-        }
+let vehicles = [];
 
-        document.getElementById("status").textContent = "Sesión iniciada correctamente";
-        document.getElementById("email").textContent = "Usuario: " + email;
+window.onload = function() {
+    getVehicles();
+};
 
-        function logout() {
+async function getVehicles() {
+    try {
+        const response = await fetch(`${API_BASE}/vehicle`);
+        const data = await response.json();
+        
+        vehicles = data.data;
 
-            sessionStorage.removeItem("authToken");
-            sessionStorage.removeItem("userEmail");
+        renderVehicles(vehicles);
 
-            window.location.href = "login.html";
-        }
+    } catch (error) {
+        console.error(error);
+        alert('No se pudieron cargar los vehículos');
+    }
+}
+
+function renderVehicles(list) {
+    const container = document.getElementById('vehicleContainer');
+    let html = '';
+
+    list.forEach(vehicle => {
+        html += `
+            <div class="vehicle-card">
+                <h3>${vehicle.brand} ${vehicle.model}</h3>
+
+                <p><b>Año:</b> ${vehicle.year}</p>
+                <p><b>Precio:</b> $${vehicle.price}</p>
+
+                <button onclick="viewVehicle('${vehicle.id}')">Ver Detalle</button>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
+
