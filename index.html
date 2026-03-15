@@ -3,52 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Inicio</title>
+    <title>TicoAuto</title>
+
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body class="index">
+<body>
 
-    <h1>TicoAuto</h1>
-
-    <div class="card">
-
-        <h2 id="status"></h2>
-        <p id="email"></p>
-
-        <div class="actions">
-            <button onclick="goVehicles()">Gestionar vehículos</button>
-            <button onclick="logout()">Cerrar sesión</button>
+    <nav class="navbar"></nav>
+        <div class="logo">
+            <a href="index.html">TicoAuto</a>
         </div>
 
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Autos</a></li>
+    </ul>
+
+    </nav>
+
+
+    <h1>Autos</h1>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar por marca, modelo o año">
+        <button onclick="searchVehicles()">Buscar</button>
     </div>
 
-<script>
+    <div id="vehicleContainer" class="vehicle-grid"></div>
 
-const token = sessionStorage.getItem("authToken");
-const email = sessionStorage.getItem("userEmail");
+</div
+>
 
-if (!token) {
-    window.location.href = "login.html";
-}
+<footer class="footer">
 
-document.getElementById("status").textContent = "Sesión iniciada correctamente";
-document.getElementById("email").textContent = "Usuario: " + email;
+<p>© 2026 TicoAuto Marketplace</p>
+
+</footer>
 
 
-function goVehicles(){
-    window.location.href = "    Vehicle.html";
-}
-
-function logout(){
-
-    sessionStorage.removeItem("authToken");
-    sessionStorage.removeItem("userEmail");
-
-    window.location.href = "login.html";
-}
-
-</script>
+<script src="js/navbar.js"></script>
+<script src="js/index.js"></script>
 
 </body>
 </html>
