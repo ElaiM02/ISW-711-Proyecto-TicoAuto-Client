@@ -41,3 +41,13 @@ function renderVehicles(list) {
     container.innerHTML = html;
 }
 
+function searchVehicles() {
+    const text = document.getElementById('searchInput').value.toLowerCase();
+
+    const filtered = vehicles.filter(v => 
+        v.brand.toLowerCase().includes(text) || 
+        v.model.toLowerCase().includes(text)
+    );
+
+    renderVehicles(filtered);
+}
