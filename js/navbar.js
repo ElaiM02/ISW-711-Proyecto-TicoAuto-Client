@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
     else {
 
         links += `
-            <li><a href="Vehcicle.html">Mis Vehículos</a></li>
-            <li><a href="#" id="logoutBtn">Logout (${email})</a></li>
+            <li><a href="Vehicle.html">Mis Vehículos</a></li>
+            <li><a href="#" id="logoutBtn">Logout</a></li>
         `;
     }
 
