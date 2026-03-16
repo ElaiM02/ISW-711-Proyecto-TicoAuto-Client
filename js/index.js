@@ -63,3 +63,36 @@ function viewVehicle(id) {
 
     window.location.href = `vehicle.html?id=${id}`;
 }
+
+async function searchVehicles(){
+
+const brand = document.getElementById("brandFilter").value;
+const model = document.getElementById("modelFilter").value;
+const minYear = document.getElementById("minYearFilter").value;
+const maxYear = document.getElementById("maxYearFilter").value;
+const minPrice = document.getElementById("minPriceFilter").value;
+const maxPrice = document.getElementById("maxPriceFilter").value;
+const status = document.getElementById("statusFilter").value;
+
+let query = [];
+
+if(brand) query.push(`brand=${brand}`);
+if(model) query.push(`model=${model}`);
+if(minYear) query.push(`minYear=${minYear}`);
+if(maxYear) query.push(`maxYear=${maxYear}`);
+if(minPrice) query.push(`minPrice=${minPrice}`);
+if(maxPrice) query.push(`maxPrice=${maxPrice}`);
+if(status) query.push(`status=${status}`);
+
+let url = `${API_BASE}/vehicle`;
+
+if(query.length > 0){
+url += "?" + query.join("&");
+}
+
+const response = await fetch(url);
+const data = await response.json();
+
+renderVehicles(data.data);
+
+}
