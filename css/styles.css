@@ -31,11 +31,6 @@ border-radius:4px;
 
 
 /* ===== INDEX ===== */
-.search-box{
-margin: 20px 0;
-display:flex;
-gap:10px;
-}
 
 .vehicle-grid{
 display:grid;
@@ -62,6 +57,34 @@ margin:0;
 .vehicle-card p{
 margin:5px 0;
 color:#555;
+}
+
+/* SEARCH BOX */
+
+.search-box{
+background:white;
+padding:20px;
+border-radius:8px;
+margin-bottom:30px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.search-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+gap:10px;
+margin-top:10px;
+}
+
+.search-grid input,
+.search-grid select{
+padding:8px;
+border:1px solid #ccc;
+border-radius:4px;
+}
+
+.search-grid button{
+grid-column:span 2;
 }
 
 
