@@ -13,12 +13,31 @@
 
 <body>
     <div id="navbar"></div>
-    <h1>Autos</h1>
 
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Buscar por marca, modelo">
-        <button onclick="searchVehicles()">Buscar</button>
+
+        <h2>Buscar Autos </h2>
+
+        <div class="search-grid">
+<input id="brandFilter" placeholder="Marca">
+<input id="modelFilter" placeholder="Modelo">
+<input id="minYearFilter" type="number" placeholder="Año mínimo">
+<input id="maxYearFilter" type="number" placeholder="Año máximo">
+<input id="minPriceFilter" type="number" placeholder="Precio mínimo">
+<input id="maxPriceFilter" type="number" placeholder="Precio máximo">
+
+<select id="statusFilter">
+    <option value="">Estado</option>
+    <option value="available">Disponible</option>
+    <option value="sold">Vendido</option>
+</select>
+<button onclick="searchVehicles()">Buscar</button>
+
+        </div>
     </div>
+    
+    <h1>Autos</h1>
+
 
     <div id="vehicleContainer" class="vehicle-grid"></div>
 
