@@ -96,3 +96,16 @@ const data = await response.json();
 renderVehicles(data.data);
 
 }
+function clearFilters() {
+
+    document.getElementById("brandFilter").value = "";
+    document.getElementById("modelFilter").value = "";
+    document.getElementById("minYearFilter").value = "";
+    document.getElementById("maxYearFilter").value = "";
+    document.getElementById("minPriceFilter").value = "";
+    document.getElementById("maxPriceFilter").value = "";
+    document.getElementById("statusFilter").value = "";
+
+    // Volver a cargar todos los vehículos
+    loadVehicles();
+}
