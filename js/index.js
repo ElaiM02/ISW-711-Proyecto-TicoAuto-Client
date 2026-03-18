@@ -85,7 +85,7 @@ function renderVehicles(list) {
 
 
 function viewVehicle(id) {
-    window.location.href = `vehicle.html?id=${id}`;
+    window.location.href = `vehicleDetail.html?id=${id}`;
 }
 
 async function searchVehicles(){
