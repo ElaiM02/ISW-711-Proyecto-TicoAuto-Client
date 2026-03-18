@@ -36,7 +36,6 @@ function renderVehicles(list) {
                 <img src="${imageUrl}" class="vehicle-img">
 
                 <h3>${vehicle.brand} ${vehicle.model}</h3>
->
                 <p class="desc">
                     ${vehicle.description || "Sin descripción"}
                 </p>
@@ -46,13 +45,15 @@ function renderVehicles(list) {
 
                 <button onclick="viewVehicle('${vehicle._id}')">
                     Ver Detalle
-                </button>
-
-             
-
+                </button> 
             </div>
         `;
     });
+
+    if (list.length === 0) {
+    container.innerHTML = "<p>No hay vehículos disponibles</p>";
+    return;
+}
 
     container.innerHTML = html;
 }
@@ -70,37 +71,20 @@ function renderVehicles(list) {
     const fileInput = document.getElementById("image");
     formData.append("image", fileInput.files[0]);
 
-    await fetch("http://localhost:3008/api/vehicles", {
+    await fetch("http://localhost:3008/api/vehicle", {
         method: "POST",
+        headers: {
+            "Authorization": `Bearer ${authToken}`
+        },
         body: formData
     });
 
     alert("Vehículo guardado");
+    getVehicles();
 }
 
-    container.innerHTML = html;
-
-
-function searchVehicles() {
-    const text = document.getElementById('searchInput').value.toLowerCase();
-
-    const filtered = vehicles.filter(v => 
-        v.brand.toLowerCase().includes(text) || 
-        v.model.toLowerCase().includes(text)
-    );
-
-    renderVehicles(filtered);
-}
 
 function viewVehicle(id) {
-    const token = sessionStorage.getItem('authToken');
-
-    if (!token) {
-        alert('Debes iniciar sesión para ver el detalle del vehículo');
-        window.location.href = 'login.html';
-        return;
-    }
-
     window.location.href = `vehicle.html?id=${id}`;
 }
 
@@ -146,6 +130,5 @@ function clearFilters() {
     document.getElementById("maxPriceFilter").value = "";
     document.getElementById("statusFilter").value = "";
 
-    // Volver a cargar todos los vehículos
-    loadVehicles();
+    getVehicles();
 }
