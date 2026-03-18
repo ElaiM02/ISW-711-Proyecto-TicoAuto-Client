@@ -3,54 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalle del Vehículo</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="js/navbar.js"></script>
 </head>
 
-<body>
+<body class="detail">
+
+    <div id="navbar"></div>
 
 <button onclick="history.back()">← Volver</button>
+
 
 <h1>Detalle del Vehículo</h1>
 
 <div id="vehicleDetail"></div>
 
-<script>
-const API_BASE = "http://localhost:3008/api";
+<div id="questionList"></div>
 
-window.onload = function () {
+<h2>Preguntas</h2>
 
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
+<input id="questionInput" placeholder="Haz una pregunta...">
+    <button class="ask-btn" onclick="createQuestion()">Preguntar</button>
 
-    if (!id) {
-        document.getElementById("vehicleDetail").innerHTML = "No hay ID";
-        return;
-    }
+    <div id="questionList"></div>
 
-    loadVehicle(id);
-};
-
-async function loadVehicle(id) {
-
-    const token = sessionStorage.getItem("authToken");
-
-    const response = await fetch(`${API_BASE}/vehicle/${id}`, {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    });
-
-    const data = await response.json();
-
-    const v = data.data || data;
-
-    document.getElementById("vehicleDetail").innerHTML = `
-        <h2>${v.brand} ${v.model}</h2>
-        <p><b>Año:</b> ${v.year}</p>
-        <p><b>Precio:</b> $${v.price}</p>
-        <p>${v.description || "Sin descripción"}</p>
-    `;
-}
-</script>
+<script src="js/vehicleDetail.js"></script>
 
 </body>
 </html>
