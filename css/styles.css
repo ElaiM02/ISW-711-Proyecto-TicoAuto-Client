@@ -290,3 +290,105 @@ button {
     padding: 10px 15px;
     cursor: pointer;
 }
+
+/* ===== VEHICLE DETAIL ===== */
+
+body.detail {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+/* CONTENEDOR DETALLE */
+#vehicleDetail {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* IMAGEN */
+#vehicleDetail img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* TITULO */
+#vehicleDetail h2 {
+    margin: 0;
+    font-size: 26px;
+}
+
+/* INFO */
+#vehicleDetail p {
+    color: #555;
+    margin: 6px 0;
+}
+
+/* ===== PREGUNTAS ===== */
+
+#questionSection {
+    margin-top: 30px;
+}
+
+/* INPUT */
+#questionInput {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* BOTON PREGUNTAR */
+.ask-btn {
+    margin-top: 10px;
+    background-color: #28a745;
+}
+
+.ask-btn:hover {
+    background-color: #218838;
+}
+
+/* LISTA */
+#questionList {
+    margin-top: 20px;
+}
+
+/* CARD PREGUNTA */
+.question-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-left: 4px solid #007bff;
+}
+
+/* RESPUESTA */
+.answer {
+    margin-top: 10px;
+    padding: 10px;
+    background: #eaf6ff;
+    border-left: 4px solid #00a8ff;
+    border-radius: 6px;
+}
+
+/* TEXTAREA RESPUESTA */
+textarea {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* BOTON RESPONDER */
+.answer-btn {
+    margin-top: 8px;
+    background-color: #ffc107;
+}
+
+.answer-btn:hover {
+    background-color: #e0a800;
+}
