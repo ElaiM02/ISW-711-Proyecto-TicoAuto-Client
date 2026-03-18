@@ -247,3 +247,22 @@ background:#222;
 color:white;
 text-align:center;
 }
+.vehicle-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.vehicle-card {
+    width: 300px;
+    padding: 15px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.desc {
+    color: #555;
+    margin-bottom: 10px;
+}
