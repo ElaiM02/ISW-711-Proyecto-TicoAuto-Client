@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Vehículo</title>
+</head>
+
+<body>
+
+<button onclick="history.back()">← Volver</button>
+
+<h1>Detalle del Vehículo</h1>
+
+<div id="vehicleDetail"></div>
+
+<script>
+const API_BASE = "http://localhost:3008/api";
+
+window.onload = function () {
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (!id) {
+        document.getElementById("vehicleDetail").innerHTML = "No hay ID";
+        return;
+    }
+
+    loadVehicle(id);
+};
+
+async function loadVehicle(id) {
+
+    const token = sessionStorage.getItem("authToken");
+
+    const response = await fetch(`${API_BASE}/vehicle/${id}`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    const data = await response.json();
+
+    const v = data.data || data;
+
+    document.getElementById("vehicleDetail").innerHTML = `
+        <h2>${v.brand} ${v.model}</h2>
+        <p><b>Año:</b> ${v.year}</p>
+        <p><b>Precio:</b> $${v.price}</p>
+        <p>${v.description || "Sin descripción"}</p>
+    `;
+}
+</script>
+
+</body>
+</html>
