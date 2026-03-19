@@ -21,8 +21,12 @@ function getUserIdFromToken() {
     const token = sessionStorage.getItem("authToken");
     if (!token) return null;
 
+    try {
     const payload = JSON.parse(atob(token.split(".")[1]));
     return payload.id || payload.userId;
+    } catch (error) {
+        return null;
+    }
 }
 
 async function loadVehicle(id) {
@@ -34,9 +38,12 @@ async function loadVehicle(id) {
         headers["Authorization"] = `Bearer ${token}`;
     }
 
-    const response = await fetch(`${API_BASE}/vehicle/${id}`, {
-        headers
-    });
+    try {
+    const response = await fetch(`${API_BASE}/vehicle/${id}`, { headers });
+
+    if (!response.ok) {
+        throw new Error("Error al cargar el vehículo");
+    }
 
     const data = await response.json();
     const v = data.data || data;
@@ -51,47 +58,92 @@ async function loadVehicle(id) {
     <p><b>Precio:</b> $${v.price}</p>
     <p>${v.description || "Sin descripción"}</p>
 `;
+    } catch (error) {
+        console.error(error);
+        alert("Error al cargar el vehículo");
+    }
 }
 
 async function loadQuestions() {
-    try {
-        const response = await fetch(`${API_BASE}/question/${vehicleId}`);
-        const questions = await response.json();
+  try {
+    const token = sessionStorage.getItem("authToken");
 
-        const container = document.getElementById("questionList");
+    const response = await fetch(`${API_BASE}/question/${vehicleId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    });
 
-        const userId = getUserIdFromToken();
+    const result = await response.json();
 
-        let html = "";
-
-        questions.forEach(q => {
-
-            html += `
-                <div class="question-card">
-                    <p><b>${q.user?.name || "Usuario"}:</b> ${q.question}</p>
-            `;
-
-            if (q.answer) {
-                html += `
-                    <div class="answer"><b>Respuesta:</b> ${q.answer.answer}</div>
-                `;
-            }
-
-            if (!q.answer && userId && ownerId === userId) {
-                html += `
-                    <textarea id="answer-${q._id}" placeholder="Responder..."></textarea>
-                    <button onclick="createAnswer('${q._id}')">Responder</button>
-                `;
-            }
-
-            html += `</div>`;
-        });
-
-        container.innerHTML = html;
-
-    } catch (error) {
-        console.error(error);
+    if (!response.ok) {
+      console.log("ERROR BACKEND: ", result);
+      alert(result.message);
+      return;
     }
+
+    const questions = result.data;
+    const container = document.getElementById("questionList");
+    const input = document.getElementById("questionInput");
+
+    const userId = getUserIdFromToken();
+
+    if (questions.length === 0) {
+      container.innerHTML = "<p>No hay preguntas aún</p>";
+      return;
+    }
+
+    const alreadyAsked = questions.some(q => q.userId === userId && !q.answer);
+    if (alreadyAsked && input) input.disabled = true;
+
+    let html = "";
+
+    if (alreadyAsked) {
+      html += `
+        <p style="color:red;">
+          Ya hiciste una pregunta. Espera la respuesta del propietario.
+        </p>
+      `;
+    }
+
+    questions.forEach(q => {
+      html += `
+        <div class="question-card">
+          <p>
+            <b>${q.user?.name || "Usuario"}:</b> ${q.question}
+            ${q.userId === userId ? '<span style="color:green;"> (Tu pregunta)</span>' : ''}
+          </p>
+          <small>${new Date(q.createdAt).toLocaleString()}</small>
+      `;
+
+      if (q.answer) {
+        html += `
+          <div class="answer">
+            <p><b>${q.answer.user?.name || "Propietario"} respondió:</b> ${q.answer.answer}</p>
+            <small>${new Date(q.answer.createdAt).toLocaleString()}</small>
+          </div>
+        `;
+      }
+
+      if (!q.answer && userId === ownerId) {
+        html += `
+          <textarea id="answer-${q._id}" placeholder="Responder..."></textarea>
+          <button class="answer-btn" onclick="createAnswer('${q._id}')">
+            Responder
+          </button>
+        `;
+      }
+
+      html += `</div>`;
+    });
+
+    container.innerHTML = html;
+
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function createQuestion() {
@@ -103,49 +155,82 @@ async function createQuestion() {
         return;
     }
 
-    const question = document.getElementById("questionInput").value;
+    const input = document.getElementById("questionInput");
+    const question = input.value;
 
-    const response = await fetch(`${API_BASE}/question/${vehicleId}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({ question })
-    });
-
-    const data = await response.json();
-
-    alert(data.message);
-
-    document.getElementById("questionInput").value = "";
-
-    loadQuestions();
-}
-
-async function createAnswer(questionId) {
-
-    const token = sessionStorage.getItem("authToken");
-
-    if (!token) {
-        alert("Debes iniciar sesión");
+    if (!question.trim()) {
+        alert("Escribe una pregunta");
         return;
     }
 
-    const answer = document.getElementById(`answer-${questionId}`).value;
+    try {
+        const response = await fetch(`${API_BASE}/question/${vehicleId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ question })
+        });
 
-    const response = await fetch(`${API_BASE}/answer/${questionId}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({ answer })
-    });
+        const data = await response.json();
 
-    const data = await response.json();
+        if (!response.ok) {
+            alert(data.message);
+            input.value = "";
+            return;
+        }
 
-    alert(data.message);
+        alert(data.message);
+        input.value = "";
+        loadQuestions();
 
-    loadQuestions();
-}
+        }catch (error) {
+            console.error(error);
+            alert("Error al enviar la pregunta");
+        }
+    }
+
+
+    async function createAnswer(questionId) {
+
+        const token = sessionStorage.getItem("authToken");
+
+        if (!token) {
+            alert("Debes iniciar sesión");
+            return;
+        }
+
+        const textarea = document.getElementById(`answer-${questionId}`);
+        const answer = textarea.value;
+
+        if (!answer.trim()) {
+            alert("Escribe una respuesta");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_BASE}/answer/${questionId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ answer })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert(data.message);
+                return;
+            }
+
+            alert(data.message);
+
+            loadQuestions();
+        }catch (error) {
+            console.error(error);
+            alert("Error al enviar la respuesta");
+        }
+    }
